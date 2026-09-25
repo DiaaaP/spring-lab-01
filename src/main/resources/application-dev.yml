@@ -3,7 +3,7 @@ server:
 
 app:
   mail:
-    enabled: false # no mail is sent in development
+    enabled: false
     retry-count: 1
     ui:
       theme: DARK

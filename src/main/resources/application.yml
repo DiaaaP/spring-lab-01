@@ -10,8 +10,7 @@ app:
   group: IT1-2403IS
   mail:
     from: no-reply@iitu.kz
-    retry-count: 10
-    timeout: 5s
+    retry-count: 5
     enabled: true
   ui:
     theme: LIGHT
