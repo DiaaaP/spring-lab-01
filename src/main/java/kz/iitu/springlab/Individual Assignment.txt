@@ -1,0 +1,12 @@
+1. http://localhost:8080/api/sum?a=10&b=2
+2. http://localhost:8080/api/reverse?text=Spring
+3. http://localhost:8080/api/palindrome?text=level
+4. http://localhost:8080/api/factorial?n=5
+5. http://localhost:8080/api/temperature?f=32
+6. http://localhost:8080/api/stats?numbers=10,20,30
+7. http://localhost:8080/api/wordcount?text=Hello world
+8. http://localhost:8080/api/case?text=hello world
+9. http://localhost:8080/api/fibonacci?n=5
+10. http://localhost:8080/api/prime?n=7
+11. http://localhost:8080/api/time?zone=Asia/Almaty
+12. http://localhost:8080/api/bmi?weight=70&height=1.75

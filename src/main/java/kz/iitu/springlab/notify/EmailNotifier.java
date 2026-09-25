@@ -23,5 +23,5 @@ public class EmailNotifier implements Notifier {
     @Override
     public String channel() {
         return "email";
-    }
+    } 
 }
