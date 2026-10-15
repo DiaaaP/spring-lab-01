@@ -15,20 +15,15 @@ public class CatalogService {
     @Lazy
     private CatalogService self;
 
-    public String removeTwice(long id) {
-        String first = self.remove(id);
-        String second = self.remove(id + 1);
-        return first + "; " + second;
-    }
-
     public String findById(long id) {
-        sleep(50); // simulating a database call
+        sleep(50);
         return "Item no. " + id;
     }
 
     @Audited(action = "CATALOG_LIST", logArguments = true)
     public List<String> findAll(int limit) {
-        sleep(300); // a deliberately «slow» method
+        sleep(300);
+
         return IntStream.rangeClosed(1, limit)
                 .mapToObj(i -> "Item no. " + i)
                 .toList();
@@ -44,11 +39,28 @@ public class CatalogService {
         return "Removed item no. " + id;
     }
 
+    public String removeTwice(long id) {
+        String first = self.remove(id);
+        String second = self.remove(id + 1);
+
+        return first + "; " + second;
+    }
+
+    public ChangeResult updateItem(String oldValue, String newValue) {
+        return new ChangeResult(oldValue, newValue);
+    }
+
     private void sleep(long ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public record ChangeResult(
+            String oldValue,
+            String newValue
+    ) {
     }
 }

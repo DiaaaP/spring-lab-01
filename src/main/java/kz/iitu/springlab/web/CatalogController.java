@@ -1,15 +1,16 @@
 package kz.iitu.springlab.web;
+
 import kz.iitu.springlab.aspect.CallCounterAspect;
 import kz.iitu.springlab.service.CatalogService;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.aop.support.AopUtils;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/lab4")
 public class CatalogController {
-
 
     private final CatalogService catalogService;
     private final CallCounterAspect callCounterAspect;
@@ -19,14 +20,24 @@ public class CatalogController {
         this.catalogService = catalogService;
         this.callCounterAspect = callCounterAspect;
     }
+
+    @GetMapping("/update")
+    public CatalogService.ChangeResult updateItem(
+            @RequestParam String oldValue,
+            @RequestParam String newValue) {
+        return catalogService.updateItem(oldValue, newValue);
+    }
+
     @GetMapping("/stats")
     public Map<String, Integer> statistics() {
         return callCounterAspect.getStatistics();
     }
+
     @GetMapping("/item/{id}")
     public String findById(@PathVariable long id) {
         return catalogService.findById(id);
     }
+
     @GetMapping("/remove-twice/{id}")
     public String removeTwice(@PathVariable long id) {
         return catalogService.removeTwice(id);
@@ -40,6 +51,7 @@ public class CatalogController {
                 "isAopProxy", String.valueOf(AopUtils.isAopProxy(catalogService)),
                 "isCglib", String.valueOf(AopUtils.isCglibProxy(catalogService)));
     }
+
     @GetMapping("/items")
     public List<String> findAll(@RequestParam(defaultValue = "5") int limit) {
         return catalogService.findAll(limit);
