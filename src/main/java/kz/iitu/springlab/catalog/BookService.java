@@ -32,6 +32,7 @@ public class BookService {
         return repository.save(book);
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public boolean delete(long id) {
         return repository.deleteById(id);
     }

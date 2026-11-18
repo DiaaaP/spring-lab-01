@@ -1,0 +1,6 @@
+<!doctype html><html lang="ru" xmlns:th="http://www.thymeleaf.org"><meta charset="utf-8"><title>Вход в каталог</title><link rel="stylesheet" href="/css/app.css"><main><h1>Вход в каталог</h1>
+<p th:if="${param.error}" role="alert">Неверное имя пользователя или пароль</p>
+<p th:if="${param.logout}">Вы вышли из системы</p>
+<form th:action="@{/login}" method="post"><label>Имя пользователя <input name="username" autocomplete="username" required></label>
+<label>Пароль <input type="password" name="password" autocomplete="current-password" required></label>
+<button>Войти</button></form></main></html>

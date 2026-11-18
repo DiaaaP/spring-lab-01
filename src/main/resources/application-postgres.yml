@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: ${LAB8_DB_URL:jdbc:postgresql://localhost:5432/springlab}
+    username: ${LAB8_DB_USER}
+    password: ${LAB8_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver

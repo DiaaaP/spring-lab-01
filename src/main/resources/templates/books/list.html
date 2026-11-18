@@ -6,6 +6,13 @@
     <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<p>Вы вошли как <strong sec:authentication="name"></strong> · <span sec:authentication="principal.authorities"></span></p>
+<a sec:authorize="hasRole('ADMIN')" href="/admin">Администрирование</a>
+<form th:action="@{/logout}" method="post"><button>Выйти</button></form>
+<form sec:authorize="hasRole('ADMIN')" th:action="@{/books}" method="post">
+    <label>Название <input name="title" required></label><label>Автор <input name="author" required></label>
+    <label>Год <input type="number" name="year" required></label><button>Добавить книгу</button>
+</form>
 <h1 th:text="${title}">Catalogue</h1>
 
 <p th:if="${message}" class="flash" th:text="${message}"></p>
