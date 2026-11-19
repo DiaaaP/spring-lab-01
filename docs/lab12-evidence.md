@@ -2,9 +2,9 @@
 Dias Mukhametsabyr · IT1-2403IS · RWPSF 3305 · Вариант 2
 
 ## Результаты сборки
-Команда в PowerShell: `.\mvnw.cmd clean verify`. Итоговая сводка Maven:
+Итоговый прогон выполнен на Ubuntu с Java 25 и Docker командой `bash mvnw -B clean verify`. [Журнал GitHub Actions](https://github.com/DiaaaP/spring-lab-01/actions/runs/44500563846).
 ```text
-Tests run: 20, Failures: 0, Errors: 0, Skipped: 1
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
 До дополнительного теста Maven обнаружил 19 тестов, один из которых был пропущен.
@@ -32,7 +32,12 @@ BookRepositoryTest использует @DataJpaTest и TestEntityManager с H2.
 ## Интеграционный тест и Docker
 Команда: `docker info`. Ошибка PowerShell: `The term 'docker' is not recognized as a name of a cmdlet, function, script file, or executable program.`
 
-BookApiIntegrationTest компилируется. При доступном Docker Testcontainers запускает postgres:17-alpine, @ServiceConnection передаёт параметры подключения, Flyway применяет миграции. Тест получает токен через POST /auth/login, создаёт книгу с Bearer-токеном и читает её через адрес из Location. Такой прогон проверяет совместимость SQL с PostgreSQL и взаимодействие HTTP, безопасности, сервиса и базы. В этом запуске Testcontainers пропустил тест по disabledWithoutDocker.
+Testcontainers запустил postgres:17-alpine за 3,25 секунды. Flyway подготовил схему в пустой базе. Клиент получил токен через POST /auth/login, создал книгу с Bearer-токеном, получил 201 и прочитал её по адресу из Location. BookApiIntegrationTest прошёл за 8,84 секунды.
+
+```text
+Container postgres:17-alpine started in PT3.248962352S
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.838 s -- in kz.iitu.springlab.web.BookApiIntegrationTest
+```
 
 ## Для демонстрации
 Открыть target/site/jacoco/index.html после clean verify и перейти в пакет loan. Покрытие показывает, какие пути исполнились. Если удалить проверку результата, покрытие может сохраниться, хотя тест перестанет обнаруживать ошибку. Для проверки интеграции запустить тот же clean verify в среде с Docker и проверить отсутствие пропуска.
