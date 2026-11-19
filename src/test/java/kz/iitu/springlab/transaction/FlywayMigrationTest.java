@@ -43,12 +43,12 @@ class FlywayMigrationTest {
                 row.success()
         ));
 
-        assertThat(history).extracting(MigrationRow::version).containsExactly("1", "2", "3", "4", "5");
+        assertThat(history).extracting(MigrationRow::version).containsExactly("1", "2", "3", "4", "5", "6");
         assertThat(history).allMatch(MigrationRow::success);
 
         String currentVersion = flyway.info().current().getVersion().getVersion();
         System.out.printf("SCHEMA VERSION AFTER STARTUP: %s%n", currentVersion);
-        assertThat(currentVersion).isEqualTo("5");
+        assertThat(currentVersion).isEqualTo("6");
 
         MigrateResult rerun = flyway.migrate();
         System.out.printf(

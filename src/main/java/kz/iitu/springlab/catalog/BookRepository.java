@@ -1,49 +1,24 @@
 package kz.iitu.springlab.catalog;
-
+import java.util.*;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
-
+import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class BookRepository {
-
-    private final Map<Long, Book> storage = new ConcurrentHashMap<>();
-    private final AtomicLong sequence = new AtomicLong();
-
-    public BookRepository() {
-        save(new Book(null, "Effective Java", "Joshua Bloch", 2018));
-        save(new Book(null, "Clean Code", "Robert Martin", 2008));
-        save(new Book(null, "Spring in Action", "Craig Walls", 2022));
+    private final CatalogueRows rows;
+    public BookRepository(CatalogueRows rows){this.rows=rows;}
+    public List<Book> findAll(){return rows.findAll().stream().map(CatalogueBook::asBook).toList();}
+    public Optional<Book> findById(long id){return rows.findById(id).map(CatalogueBook::asBook);}
+    @Transactional
+    public Book save(Book book){
+        CatalogueBook row=book.id()==null ? new CatalogueBook(book.title(),book.author(),book.year())
+                : rows.findById(book.id()).orElseThrow();
+        row.update(book);
+        return rows.save(row).asBook();
     }
-
-    public List<Book> findAll() {
-        return List.copyOf(storage.values());
-    }
-
-    public Optional<Book> findById(long id) {
-        return Optional.ofNullable(storage.get(id));
-    }
-
-    public Book save(Book book) {
-        long id = book.id() != null ? book.id() : sequence.incrementAndGet();
-
-        Book stored = new Book(
-                id,
-                book.title(),
-                book.author(),
-                book.year()
-        );
-
-        storage.put(id, stored);
-
-        return stored;
-    }
-
-    public boolean deleteById(long id) {
-        return storage.remove(id) != null;
+    @Transactional
+    public boolean deleteById(long id){
+        if (!rows.existsById(id)) return false;
+        rows.deleteById(id);
+        return true;
     }
 }

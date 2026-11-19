@@ -33,12 +33,12 @@ public class BookRestController {
     public ResponseEntity<Book> find(@PathVariable long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new MissingBook(id));
     }
 
     @PostMapping
-    public ResponseEntity<Book> create(@RequestBody Book book) {
-        Book saved = service.create(book);
+    public ResponseEntity<Book> create(@jakarta.validation.Valid @RequestBody Book book) {
+        Book saved = service.create(new Book(null,book.title(),book.author(),book.year()));
 
         return ResponseEntity
                 .created(URI.create("/api/books/" + saved.id()))
