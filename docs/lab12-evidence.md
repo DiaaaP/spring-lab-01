@@ -23,6 +23,8 @@ BookRepositoryTest использует @DataJpaTest и TestEntityManager с H2.
 
 Строка 14 была жёлтой: положительный срок проходил через условие, а исключение ещё не проверялось. Тест zeroDaysAreRejectedBeforeLookingUpTheLoan передаёт 0, проверяет тип и сообщение исключения и отсутствие обращений к репозиторию. Граница важна: замена <= на < теперь сломает тест.
 
+![После теста продления на ноль дней обе ветви строки 14 покрыты](lab9/after.png)
+
 Фрагмент итогового HTML в target/site/jacoco/kz.iitu.springlab.loan/LoanService.java.html:
 ```html
 <span class="fc bfc" id="L14" title="All 2 branches covered.">
